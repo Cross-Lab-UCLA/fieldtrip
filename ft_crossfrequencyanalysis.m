@@ -44,7 +44,7 @@ function crossfreq = ft_crossfrequencyanalysis(cfg, freqlow, freqhigh)
 %   cfg.method     = string, can be
 %                     'coh' - coherence
 %                     'plv' - phase locking value
-%                     'mvl' - mean vector length
+%                     'mvl' - mean vector length - MXC pac - KC added debias term 3/2023 based on van Driel, J Neursci Methods, 2015                   
 %                     'mi'  - modulation index
 %                     'pac' - phase amplitude coupling
 %
@@ -76,6 +76,9 @@ function crossfreq = ft_crossfrequencyanalysis(cfg, freqlow, freqhigh)
 %    along with FieldTrip. If not, see <http://www.gnu.org/licenses/>.
 %
 % $Id$
+%
+%
+% 
 
 % these are used by the ft_preamble/ft_postamble function and scripts
 ft_revision = '$Id$';
@@ -394,9 +397,11 @@ LFphas   = angle(LFsigtemp);
 HFamp    = abs(HFsigtemp);
 mvldata  = zeros(size(LFsigtemp,1),size(HFsigtemp,1));    % mean vector length
 
+pc_bias = mean(exp(1i*LFphas)); % -- this is the phase clustering bias term [added KC 3/2023]
+
 for i = 1:size(LFsigtemp,1)
   for j = 1:size(HFsigtemp,1)
-    mvldata(i,j) = nanmean(HFamp(j,:).*exp(1i*LFphas(i,:)));
+    mvldata(i,j) = nanmean( HFamp(j,:).*(exp(1i*LFphas(i,:)) - pc_bias(i,:)) );
   end
 end
 
