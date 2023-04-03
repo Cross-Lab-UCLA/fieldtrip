@@ -184,15 +184,18 @@ elseif strcmp(dftreplace,'neighbour')
   nbin = round((dftneighbourwidth+dftbandwidth)/R); % number of bins to be estimated at each side of the centre frequency
   freqs = (-nbin:nbin)*R + Fl;
   
-  tmp  = exp(2*1i*pi*freqs(:)*time); % complex sin and cos
-  beta = 2*dat(:, sel)/tmp(:, sel);  % estimated amplitude of complex sin and cos on integer number of cycles
-  
+  % KC fix for memory - 3/3023, added back line 198 
+  % tmp  = exp(2*1i*pi*freqs(:)*time); % complex sin and cos
+  % beta = 2*dat(:, sel)/tmp(:, sel);  % estimated amplitude of complex sin and cos on integer number of cycles
+  beta = 2*dat(:, sel)/exp(2*1i*pi*freqs(:)*time(:, sel)); %;
+
   % boolean variable that indicates which frequency bins are to be replaced
   stopband = nearest(freqs - Fl, dftbandwidth.*[-1 1]);
   stopbool = false(1,numel(freqs));
   stopbool(stopband(1):stopband(2)) = true;
   
   % bandstop signal
+  tmp  = exp(2*1i*pi*freqs(:)*time); % KC added
   stopsignal = real(beta(:, stopbool)*tmp(stopbool, :));
   
   % retain the phase information
