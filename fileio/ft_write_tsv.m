@@ -56,7 +56,11 @@ elseif isnumeric(val) && numel(val)>1 && any(isnan(val))
   val = num2cell(val);
   val = cellfun(@output_compatible, val, 'UniformOutput', false);
 elseif isdatetime(val)
-  val = datestr(val, 'yyyy-mm-ddTHH:MM:SS.FFF'); % following RFC3339 and BIDS 
+  try
+      val = datestr(val, 'yyyy-mm-ddTHH:MM:SS.FFF'); % following RFC3339 and BIDS 
+  catch
+      val = 'n/a'; % KC: workaround for error if NaT due to 'n/a' in scans.tsv
+  end
 else
   % write [] as 'n/a'
   % write nan as 'n/a'
