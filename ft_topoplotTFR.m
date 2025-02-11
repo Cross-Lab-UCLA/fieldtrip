@@ -21,6 +21,8 @@ function [cfg] = ft_topoplotTFR(cfg, varargin)
 %   cfg.baseline           = 'yes','no' or [time1 time2] (default = 'no'), see FT_TIMELOCKBASELINE or FT_FREQBASELINE
 %   cfg.baselinetype       = 'absolute' or 'relative' (default = 'absolute')
 %   cfg.trials             = 'all' or a selection given as a 1xN vector (default = 'all')
+%   cfg.magscale           = number, scaling to apply to the MEG magnetometer channels prior to display
+%   cfg.gradscale          = number, scaling to apply to the MEG gradiometer channels prior to display
 %   cfg.colormap           = string, or Nx3 matrix, see FT_COLORMAP
 %   cfg.marker             = 'on', 'labels', 'numbers', 'off'
 %   cfg.markersymbol       = channel marker symbol (default = 'o')
@@ -44,17 +46,19 @@ function [cfg] = ft_topoplotTFR(cfg, varargin)
 %                            'SouthOutside'       outside bottom
 %                            'EastOutside'        outside right
 %                            'WestOutside'        outside left
-%   cfg.colorbartext       =  string indicating the text next to colorbar
+%   cfg.colorbartext       = string indicating the text next to colorbar
 %   cfg.interplimits       = limits for interpolation (default = 'head')
-%                            'electrodes' to furthest electrode
-%                            'head' to edge of head
+%                            'sensors'            to furthest sensor
+%                            'head'               to edge of head
 %   cfg.interpolation      = 'linear','cubic','nearest','v4' (default = 'v4') see GRIDDATA
 %   cfg.style              = plot style (default = 'both')
-%                            'straight' colormap only
-%                            'contour' contour lines only
-%                            'both' (default) both colormap and contour lines
-%                            'fill' constant color between lines
-%                            'blank' only the head shape
+%                            'straight'           colormap only
+%                            'contour'            contour lines only
+%                            'both'               both colormap and contour lines
+%                            'fill'               constant color between lines
+%                            'blank'              only the head shape
+%                            'straight_imsat'     colormap only, vector-graphics friendly
+%                            'both_imsat'         both colormap and contour lines, vector-graphics friendly
 %   cfg.gridscale          = scaling grid size (default = 67)
 %                            determines resolution of figure
 %   cfg.shading            = 'flat' or 'interp' (default = 'flat')

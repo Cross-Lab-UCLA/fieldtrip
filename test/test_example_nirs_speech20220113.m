@@ -1,7 +1,8 @@
 function test_example_nirs_speech
 
-% MEM 8gb
+% MEM 6gb
 % WALLTIME 00:30:00
+% DATA public
 
 %
 %% Analyzing NIRS data recorded during listening to and repeating speech
@@ -86,7 +87,7 @@ function test_example_nirs_speech
 
 % filename = filenames{1};
 
-filename = dccnpath('/home/common/matlab/fieldtrip/data/ftp/example/nirs_speech/S1001_run01.nirs');
+filename = dccnpath('/project/3031000.02/external/download/example/nirs_speech/S1001_run01.nirs');
 
 %% # Exploring the files that hold the NIRS data
 %

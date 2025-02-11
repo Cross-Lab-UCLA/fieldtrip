@@ -363,9 +363,12 @@ for indx=1:Ndata
     bivariate_common(cfg, varargin{:});
     return
   end
-  
+ 
   % Apply channel-type specific scaling
-  tmpcfg = keepfields(cfg, {'parameter', 'chanscale', 'ecgscale', 'eegscale', 'emgscale', 'eogscale', 'gradscale', 'magscale', 'megscale', 'mychan', 'mychanscale'});
+  fn = fieldnames(cfg);
+  fn = setdiff(fn, {'skipscale', 'showscale', 'gridscale'}); % these are for the layout and plotting, not for CHANSCALE_COMMON
+  fn = fn(endsWith(fn, 'scale') | startsWith(fn, 'mychan') | strcmp(fn, 'channel') | strcmp(fn, 'parameter'));
+  tmpcfg = keepfields(cfg, fn);
   data = chanscale_common(tmpcfg, data);
   
   
@@ -568,6 +571,11 @@ for indx=1:Ndata
     if ~isempty(msk)
       msk(nanInds) = [];
     end
+  elseif strcmp(cfg.interpolatenan, 'no') && any(nanInds)
+    if isempty(msk)
+      msk = true(size(dat));
+    end
+    msk(nanInds) = false;
   end
   
   % Set ft_plot_topo specific options
@@ -711,7 +719,11 @@ for indx=1:Ndata
   
   % Set colour axis
   if ~strcmp(cfg.style, 'blank')
-    caxis([zmin zmax]);
+    if zmin==zmax
+      clim([zmin-eps zmax+eps]);
+    else
+      clim([zmin zmax]);
+    end
   end
   
   % Plot colorbar

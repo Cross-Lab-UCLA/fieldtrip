@@ -1,7 +1,8 @@
 function test_example_realtime_classification
 
-% MEM 8gb
-% WALLTIME 08:00:00
+% MEM 6gb
+% WALLTIME 04:00:00
+% DATA public
 
 %
 %% Example real-time classification
@@ -14,7 +15,7 @@ function test_example_realtime_classification
 % The simplest is to try and classify the tutorial MEG dataset which is available from the FTP server. More information is on the dataset is available [here](/tutorial/meg_language). That dataset contains the stimulus classes FC, IC and FIC, corresponding to trigger values 9, 5 and 3.
 %
 cfg = [];
-cfg.dataset  = dccnpath('/home/common/matlab/fieldtrip/data/ftp/test/ctf/Subject01.ds');
+cfg.dataset  = dccnpath('/project/3031000.02/external/download/test/ctf/Subject01.ds');
 cfg.trialfun = 'ft_trialfun_twoclass_classification';
 cfg.trialdef.numtrain    = 20;
 cfg.trialdef.eventtype   = 'backpanel trigger';
@@ -50,9 +51,13 @@ dummy = ft_definetrial(cfg);
 
 % JM added: we need prtools on the path for the following function call, so
 % download and install on the fly: at the moment (20220401) the below url works.
-t = tempdir;
-unzip('http://prtools.tudelft.nl/files/prtools4.2.5.zip', t);
-addpath(fullfile(t, 'prtools'));
+% t = tempdir;
+% unzip('http://prtools.tudelft.nl/files/prtools4.2.5.zip', t);
+% addpath(fullfile(t, 'prtools'));
+
+% RO: the prtools.tudelft.nl website does not work any more (20231125) hence I copied a version from my laptop to /home/common
+% the following will find /home/common/matlab/prtools and add it to the path
+ft_hastoolbox('prtools', 1);
 
 ft_realtime_classification(cfg);
 

@@ -10,8 +10,8 @@ function [cfg] = ft_singleplotER(cfg, varargin)
 %   ft_singleplotER(cfg, data1, data2, ..., datan)
 %
 % The data can be an erp/erf produced by FT_TIMELOCKANALYSIS, a power
-% spectrum produced by FT_FREQANALYSIS or connectivity spectrum produced by
-% FT_CONNECTIVITYANALYSIS.
+% spectrum or time-frequency respresentation produced by FT_FREQANALYSIS or 
+% a connectivity spectrum produced by FT_CONNECTIVITYANALYSIS.
 %
 % The configuration can have the following parameters:
 %   cfg.parameter     = field to be plotted on y-axis, for example 'avg', 'powspctrm' or 'cohspctrm' (default is automatic)
@@ -26,7 +26,8 @@ function [cfg] = ft_singleplotER(cfg, varargin)
 %   cfg.showlegend    = 'yes' or 'no', show the legend with the colors (default = 'no')
 %   cfg.refchannel    = name of reference channel for visualising connectivity, can be 'gui'
 %   cfg.baseline      = 'yes', 'no' or [time1 time2] (default = 'no'), see ft_timelockbaseline
-%   cfg.baselinetype  = 'absolute' or 'relative' (default = 'absolute')
+%   cfg.baselinetype  = 'absolute', 'relative', 'relchange', 'normchange', 'db', 'vssum' or 'zscore' (default = 'absolute'), only relevant for TFR data.
+%                       See ft_freqbaseline.
 %   cfg.trials        = 'all' or a selection given as a 1xn vector (default = 'all')
 %   cfg.fontsize      = font size of title (default = 8)
 %   cfg.hotkeys       = enables hotkeys (leftarrow/rightarrow/uparrow/downarrow/m) for dynamic zoom and translation (ctrl+) of the axes
@@ -173,7 +174,7 @@ cfg.xlim            = ft_getopt(cfg, 'xlim',          'maxmin');
 cfg.ylim            = ft_getopt(cfg, 'ylim',          'maxmin');
 cfg.zlim            = ft_getopt(cfg, 'zlim',          'maxmin');
 cfg.comment         = ft_getopt(cfg, 'comment',        strcat([date '\n']));
-cfg.axes            = ft_getopt(cfg, ' axes',         'yes');
+cfg.axes            = ft_getopt(cfg, 'axes',          'yes');
 cfg.fontsize        = ft_getopt(cfg, 'fontsize',       8);
 cfg.interpreter     = ft_getopt(cfg, 'interpreter',   'none');  % none, tex or latex
 cfg.hotkeys         = ft_getopt(cfg, 'hotkeys',       'yes');
@@ -309,10 +310,8 @@ else
 end
 tmpvar = varargin{1};
 [varargin{:}] = ft_selectdata(tmpcfg, varargin{:});
-% restore the provenance information and put back cfg.channel
-tmpchannel  = cfg.channel;
-[cfg, varargin{:}] = rollback_provenance(cfg, varargin{:});
-cfg.channel = tmpchannel;
+% restore the provenance information, don't keep the ft_selectdata details
+[tmpcfg, varargin{:}] = rollback_provenance(cfg, varargin{:});
 
 if isfield(tmpvar, cfg.maskparameter) && ~isfield(varargin{1}, cfg.maskparameter)
   % the mask parameter is not present after ft_selectdata, because it is
@@ -618,12 +617,13 @@ cfg      = info.(ident).cfg;
 varargin = info.(ident).varargin;
 if ~isempty(range)
   cfg = removefields(cfg, 'inputfile');   % the reading has already been done and varargin contains the data
-  cfg = removefields(cfg, 'showlabels');  % this is not allowed in topoplotER
+  cfg = removefields(cfg, 'showlabels');  % this is not allowed in ft_topoplotER
+  cfg = removefields(cfg, {'latency', 'frequency'});  % this should be xlim in ft_topoplotER
   cfg.baseline = 'no';                    % make sure the next function does not apply a baseline correction again
   cfg.dataname = info.(ident).dataname;   % put data name in here, this cannot be resolved by other means
   cfg.channel = 'all';                    % make sure the topo displays all channels, not just the ones in this singleplot
-  cfg.comment = 'auto';
   cfg.trials = 'all';                     % trial selection has already been taken care of
+  cfg.comment = 'auto';
   cfg.xlim = range(1:2);
   % if user specified a ylim, copy it over to the zlim of topoplot
   if isfield(cfg, 'ylim')

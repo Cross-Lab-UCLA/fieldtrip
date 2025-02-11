@@ -1,8 +1,9 @@
 function test_ft_channelcombination
 
-% MEM 2gb
+% MEM 1gb
 % WALLTIME 00:10:00
 % DEPENDENCY ft_channelcombination
+% DATA no
 
 % this function tests the new implementation of ft_channelcombination
 

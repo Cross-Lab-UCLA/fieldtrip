@@ -1,8 +1,9 @@
 function test_bug1775
 
-% MEM 2gb
+% MEM 1gb
 % WALLTIME 00:10:00
 % DEPENDENCY ft_sourceparcellate ft_checkdata ft_datatype_source ft_datatype_volume ft_datatype_parcellation ft_datatype_segmentation
+% DATA no
 
 %% create a set of sensors
 [pnt, tri] = mesh_sphere(162);
@@ -47,6 +48,7 @@ parcellation.tissue       = zeros(size(grid.pos,1),1);
 parcellation.tissuelabel  = {};
 height = [3 4 5 6 7 8 9];
 for i=1:length(height)
+  % note that the parcellation does not cover all tissue types
   sel = parcellation.pos(:,3)==height(i);
   parcellation.tissue(sel) = i;
   parcellation.tissuelabel{i} = sprintf('%d%s', height(i), parcellation.unit);

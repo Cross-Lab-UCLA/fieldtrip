@@ -89,7 +89,7 @@ end
 % store the original input representation of the data, this is used later on to convert it back
 isfreq = ft_datatype(data, 'freq');
 istlck = ft_datatype(data, 'timelock');  % this will be temporary converted into raw
-data   = ft_checkdata(data, 'datatype', {'raw', 'raw+comp', 'mvar' 'freq'}, 'feedback', 'yes');
+data   = ft_checkdata(data, 'datatype', {'raw+comp', 'raw', 'mvar' 'freq'}, 'feedback', 'yes');
 
 % ensure that the source input is a source structure , not a volume structure
 % this will also return source.filter, rather than source.avg.filter
@@ -398,7 +398,7 @@ if istlck
 end
 
 if usepos
-  brainordinate = keepfields(source, {'pos' 'dim' 'tri' 'transform' 'inside' 'unit'});
+  brainordinate = keepfields(source, {'pos', 'tri', 'dim', 'transform', 'unit', 'coordsys', 'inside'});
   brainordinate.index = zeros(npos, 1);
   brainordinate.index(indx) = indx;
   brainordinate.indexlabel  = data_vc.label; % FIXME this only works with one component per vc

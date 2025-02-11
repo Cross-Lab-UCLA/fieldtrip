@@ -79,7 +79,7 @@ function [elec] = ft_electrodeplacement(cfg, varargin)
 %   cfg.fiducial.ini   = 1x3 vector with coordinates
 %   cfg.fiducial.lpa   = 1x3 vector with coordinates
 %   cfg.fiducial.rpa   = 1x3 vector with coordinates
-%   cfg.feedback       = string, can be 'yes' or 'no' for detailled feedback (default = 'yes')
+%   cfg.feedback       = string, can be 'yes' or 'no' for detailed feedback (default = 'yes')
 %
 % The following options apply to the 'shaft' method
 %   cfg.shaft.tip      = 1x3 position of the electrode at the tip of the shaft
@@ -951,9 +951,9 @@ axis(h3, [xi-xloadj xi+xhiadj yi-yloadj yi+yhiadj]);
 
 if opt.zoom>0
   % the coordsys labels fall outside the subplots when zoomed in
-  delete(findall(h, 'Type', 'text', 'Tag', 'coordsys_label_100'));
-  delete(findall(h, 'Type', 'text', 'Tag', 'coordsys_label_010'));
-  delete(findall(h, 'Type', 'text', 'Tag', 'coordsys_label_001'));
+  delete(findall(h, 'Type', 'text', 'Tag', 'coordsyslabel_x'));
+  delete(findall(h, 'Type', 'text', 'Tag', 'coordsyslabel_y'));
+  delete(findall(h, 'Type', 'text', 'Tag', 'coordsyslabel_z'));
 end
 
 if opt.init
@@ -1988,7 +1988,7 @@ opt = getappdata(h, 'opt');
 if get(hObject, 'value') && ~isfield(opt.mri{opt.currmri}, 'dat_strip') % skullstrip
   fprintf('==================================================================================\n');
   fprintf(' stripping the skull - this may take a few minutes\n')
-  tmp = keepfields(opt.mri{opt.currmri}, {'anatomy', 'dim', 'coordsys', 'unit', 'transform'});
+  tmp = keepfields(opt.mri{opt.currmri}, {'anatomy', 'dim', 'transform', 'unit', 'coordsys'});
   cfg = [];
   cfg.output = 'skullstrip';
   seg = ft_volumesegment(cfg, tmp);

@@ -168,11 +168,11 @@ function [cfg] = ft_sourceplot(cfg, functional, anatomical)
 %                        or an Nx3 or Nx1 array where N is the number of vertices
 %   cfg.edgecolor      = [r g b] values or string, for example 'brain', 'cortex', 'skin', 'black', 'red', 'r'
 %
-% When cfg.method = 'cloud', the functional data will be rendered as as clouds (groups of points), spheres, or
-% single points at each sensor position. These spheres or point clouds can either
-% be viewed in 3D or as 2D slices. The 'anatomical' input may also consist of
-% a single or multiple triangulated surface mesh(es) in an Nx1 cell-array
-% to be plotted with the interpolated functional data (see FT_PLOT_CLOUD)
+% When cfg.method = 'cloud', the functional data will be rendered as as clouds (groups of points), 
+% spheres, or single points at each sensor position. These spheres or point clouds can either be 
+% viewed in 3D or as 2D slices. The 'anatomical' input may also consist of a single or multiple 
+% triangulated surface meshes in an Nx1 cell-array to be plotted with the interpolated functional 
+% data (see FT_PLOT_CLOUD).
 %
 % The following parameters apply to cfg.method='cloud'
 %   cfg.cloudtype       = 'point' plots a single point at each sensor position
@@ -431,12 +431,12 @@ end
 hasfun = isfield(functional, cfg.funparameter);
 if hasfun
   fun = getsubfield(functional, cfg.funparameter);
-    
+
   dimord = getdimord(functional, cfg.funparameter);
   dimtok = tokenize(dimord, '_');
-  
+
   % replace the cell-array functional with a normal array
-  if strcmp(dimtok{1}, '{pos}')
+  if startsWith(dimord, '{pos}')
     tmpdim = getdimsiz(functional, cfg.funparameter);
     tmpfun = nan(tmpdim);
     insideindx = find(functional.inside);
@@ -445,8 +445,24 @@ if hasfun
     end
     fun = tmpfun;
     clear tmpfun
-    dimtok{1} = 'pos';  % update the description of the dimensions
-    dimord([1 5]) = []; % remove the { and }
+    dimord = ['pos' dimord(6:end)]; % update the description of the dimensions
+    dimtok = tokenize(dimord, '_');
+  elseif startsWith(dimord, '{dim1_dim2_dim3}')
+    tmpdim = getdimsiz(functional, cfg.funparameter);
+    tmpfun = nan(tmpdim);
+    for i1=1:functional.dim(1)
+      for i2=1:functional.dim(2)
+        for i3=1:functional.dim(3)
+          if functional.inside(i1, i2, i3)
+            tmpfun(i1,i2,i3,:) = fun{i1, i2, i3};
+          end
+        end
+      end
+    end
+    fun = tmpfun;
+    clear tmpfun
+    dimord = ['dim1_dim2_dim3' dimord(17:end)]; % update the description of the dimensions
+    dimtok = tokenize(dimord, '_');
   end
   
   % ensure that the functional data is real
@@ -1571,7 +1587,8 @@ yi = opt.ijk(2);
 zi = opt.ijk(3);
 qi = opt.qi;
 
-if any([xi yi zi] > functional.dim) || any([xi yi zi] <= 1)
+if any([xi yi zi] > functional.dim(1:3)) || any([xi yi zi] < 1)
+  % do not redraw the functional data when the user clicked outside the volume
   return;
 end
 
@@ -1818,9 +1835,9 @@ axis(h3, [xi-xloadj xi+xhiadj yi-yloadj yi+yhiadj]);
 
 if opt.zoom>0
   % the coordsys labels fall outside the subplots when zoomed in
-  delete(findall(h, 'Type', 'text', 'Tag', 'coordsys_label_100'));
-  delete(findall(h, 'Type', 'text', 'Tag', 'coordsys_label_010'));
-  delete(findall(h, 'Type', 'text', 'Tag', 'coordsys_label_001'));
+  delete(findall(h, 'Type', 'text', 'Tag', 'coordsyslabel_x'));
+  delete(findall(h, 'Type', 'text', 'Tag', 'coordsyslabel_y'));
+  delete(findall(h, 'Type', 'text', 'Tag', 'coordsyslabel_z'));
 end
 
 if opt.crosshair
@@ -1848,7 +1865,7 @@ if opt.hasfreq && opt.hastime && opt.hasfun
   uimagesc(double(functional.time), double(functional.freq), tmpdat); axis xy;
   xlabel('time'); ylabel('freq');
   set(h4, 'tag', 'TF1');
-  caxis([opt.fcolmin opt.fcolmax]);
+  clim([opt.fcolmin opt.fcolmax]);
 elseif opt.hasfreq && opt.hasfun
   h4 = subplot(2,2,4);
   plot(functional.freq, shiftdim(opt.fun(xi,yi,zi,:),3)); xlabel('freq');
@@ -1864,7 +1881,7 @@ elseif strcmp(opt.colorbar,  'yes') && ~isfield(opt, 'hc')
     % imagesc(vectorcolorbar,1,vectorcolorbar);ft_colormap(cfg.funcolormap);
     % use a normal MATLAB colorbar, attach it to the invisible 4th subplot
     try
-      caxis([opt.fcolmin opt.fcolmax]);
+      clim([opt.fcolmin opt.fcolmax]);
     end
     
     opt.hc = colorbar;
@@ -2118,7 +2135,7 @@ if ~isempty(tag) && ~opt.init
     opt.update = [1 1 1];
   end
 end
-opt.ijk = min(opt.ijk(:)', opt.dim+0.01);
+opt.ijk = min(opt.ijk(:)', opt.dim(1:3)+0.01);
 opt.ijk = max(opt.ijk(:)', [1 1 1]-0.01);
 
 setappdata(h, 'opt', opt);

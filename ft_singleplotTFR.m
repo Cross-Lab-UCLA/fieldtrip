@@ -156,6 +156,7 @@ cfg.xlim           = ft_getopt(cfg, 'xlim',          'maxmin');
 cfg.ylim           = ft_getopt(cfg, 'ylim',          'maxmin');
 cfg.zlim           = ft_getopt(cfg, 'zlim',          'maxmin');
 cfg.fontsize       = ft_getopt(cfg, 'fontsize',       8);
+cfg.interpreter    = ft_getopt(cfg, 'interpreter',   'none');
 cfg.colorbar       = ft_getopt(cfg, 'colorbar',      'yes');
 cfg.colormap       = ft_getopt(cfg, 'colormap',       'default');
 cfg.colorbartext   = ft_getopt(cfg, 'colorbartext',  '');
@@ -456,7 +457,7 @@ else
     t = sprintf('mean(%0s)', join_str(', ', cfg.channel));
   end
 end
-title(t, 'fontsize', cfg.fontsize);
+title(t, 'fontsize', cfg.fontsize, 'interpreter', cfg.interpreter);
 
 % set the figure window title, add channel labels if number is small
 if isempty(get(gcf, 'Name'))
@@ -551,9 +552,9 @@ if length(eventdata.Modifier) == 1 && strcmp(eventdata.Modifier{:}, 'control')
   % TRANSLATE by 10%
   switch eventdata.Key
     case 'pageup'
-      caxis([min(caxis)+incr_c max(caxis)+incr_c]);
+      clim([min(caxis)+incr_c max(caxis)+incr_c]);
     case 'pagedown'
-      caxis([min(caxis)-incr_c max(caxis)-incr_c]);
+      clim([min(caxis)-incr_c max(caxis)-incr_c]);
     case 'leftarrow'
       xlim([xlimits(1)+incr_x xlimits(2)+incr_x])
     case 'rightarrow'
@@ -567,9 +568,9 @@ else
   % ZOOM by 10%
   switch eventdata.Key
     case 'pageup'
-      caxis([min(caxis)-incr_c max(caxis)+incr_c]);
+      clim([min(caxis)-incr_c max(caxis)+incr_c]);
     case 'pagedown'
-      caxis([min(caxis)+incr_c max(caxis)-incr_c]);
+      clim([min(caxis)+incr_c max(caxis)-incr_c]);
     case 'leftarrow'
       xlim([xlimits(1)-incr_x xlimits(2)+incr_x])
     case 'rightarrow'
@@ -581,6 +582,6 @@ else
     case 'm'
       xlim([varargin{1} varargin{2}])
       ylim([varargin{3} varargin{4}])
-      caxis([varargin{5} varargin{6}]);
+      clim([varargin{5} varargin{6}]);
   end % switch
 end % if

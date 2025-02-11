@@ -1,10 +1,11 @@
 function test_ft_volumenormalise
 
-% MEM 8gb
+% MEM 6gb
 % WALLTIME 00:45:00
 % DEPENDENCY ft_volumenormalise ft_warp_apply
+% DATA public
 
-filename = dccnpath('/home/common/matlab/fieldtrip/data/ftp/test/ctf/Subject01.mri');
+filename = dccnpath('/project/3031000.02/external/download/test/ctf/Subject01.mri');
 mri = ft_read_mri(filename);
 
 %%

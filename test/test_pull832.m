@@ -1,12 +1,13 @@
 function test_pull832
 
 % WALLTIME 00:10:00
-% MEM 3gb
+% MEM 1gb
 % DEPENDENCY ft_read_sens ft_read_header mne2grad
+% DATA private
 
 %%
 
-cd(dccnpath('/home/common/matlab/fieldtrip/data/test/pull832'));
+cd(dccnpath('/project/3031000.02/test/pull832'));
 
 %%
 

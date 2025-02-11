@@ -1,10 +1,11 @@
 function test_pull433
 
-% MEM 2gb
+% MEM 1gb
 % WALLTIME 00:20:00
 % DEPENDENCY
+% DATA private
 
-cd(dccnpath('/home/common/matlab/fieldtrip/data/test/pull433'));
+cd(dccnpath('/project/3031000.02/test/pull433'));
 load('SubjectUCI29_elec_tal_f.mat', 'elec_tal_f');
 load('SubjectUCI29_hull_lh.mat', 'mesh');
 

@@ -1,11 +1,12 @@
 function test_ft_redefinetrial
 
-% MEM 2gb
+% MEM 1gb
 % WALLTIME 00:10:00
 % DEPENDENCY
+% DATA private
 
 %% use 10 trials from the ctf151 data structure
-load(dccnpath('/home/common/matlab/fieldtrip/data/test/latest/raw/meg/preproc_ctf151.mat'));
+load(dccnpath('/project/3031000.02/test/latest/raw/meg/preproc_ctf151.mat'));
 
 data.trialinfo = (1:10)';
 

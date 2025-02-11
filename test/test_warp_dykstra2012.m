@@ -1,8 +1,9 @@
 function test_warp_dykstra2012
 
-% MEM 2gb
+% MEM 1gb
 % WALLTIME 00:10:00
 % DEPENDENCY
+% DATA no
 
 % function to test the back projection of electrodes using warp_dykstra2012
 % Arjen Stolk, Dec 2018

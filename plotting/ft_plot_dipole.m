@@ -17,6 +17,7 @@ function h = ft_plot_dipole(pos, ori, varargin)
 %   'unit'      = 'm', 'cm' or 'mm', used for automatic scaling (default = 'cm')
 %   'coordsys'  = string, assume the data to be in the specified coordinate system (default = 'unknown')
 %   'axes'      = boolean, whether to plot the axes of the 3D coordinate system (default = false)
+%   'tag'       = string, the tag assigned to the plotted elements (default = '') 
 %
 % Example
 %   ft_plot_dipole([0 0 0], [1 2 3], 'color', 'r', 'alpha', 1)
@@ -24,7 +25,7 @@ function h = ft_plot_dipole(pos, ori, varargin)
 % See also FT_PLOT_MESH, FT_PLOT_HEADMODEL, FT_PLOT_HEADSHAPE, FT_PLOT_ORTHO,
 % QUIVER3, PLOT3
 
-% Copyright (C) 2009-2023, Robert Oostenveld
+% Copyright (C) 2009-2024, Robert Oostenveld
 %
 % This file is part of FieldTrip, see http://www.fieldtriptoolbox.org
 % for the documentation and details.
