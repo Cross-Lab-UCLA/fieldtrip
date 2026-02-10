@@ -190,7 +190,8 @@ elseif strcmp(dftreplace,'neighbour')
   beta = 2*dat(:, sel)/exp(2*1i*pi*freqs(:)*time(:, sel)); %;
 
   % boolean variable that indicates which frequency bins are to be replaced
-  stopband = nearest(freqs - Fl, dftbandwidth.*[-1 1]);
+  stopband(1) = nearest(freqs - Fl, -dftbandwidth);
+  stopband(2) = nearest(freqs - Fl,  dftbandwidth);
   stopbool = false(1,numel(freqs));
   stopbool(stopband(1):stopband(2)) = true;
   

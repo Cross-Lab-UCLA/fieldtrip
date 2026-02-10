@@ -185,6 +185,14 @@ ARRAY+=(utilities/private/channelposition.m)
 sync ${ARRAY[*]}
 
 ################################################################################
+# colorspec2rgb.m
+
+ARRAY=()
+ARRAY+=(plotting/private/colorspec2rgb.m)
+ARRAY+=(private/colorspec2rgb.m)
+sync ${ARRAY[*]}
+
+################################################################################
 # combineClusters.m
 
 ARRAY=()
@@ -395,6 +403,15 @@ ARRAY+=(src/det3x3.mexglx)
 sync ${ARRAY[*]}
 
 ################################################################################
+# det3x3.mexmaca64
+
+ARRAY=()
+ARRAY+=(connectivity/private/det3x3.mexmaca64)
+ARRAY+=(private/det3x3.mexmaca64)
+ARRAY+=(src/det3x3.mexmaca64)
+sync ${ARRAY[*]}
+
+################################################################################
 # det3x3.mexmaci
 
 ARRAY=()
@@ -588,6 +605,18 @@ ARRAY+=(private/fitsphere.m)
 sync ${ARRAY[*]}
 
 ################################################################################
+# fixbalance.m
+
+ARRAY=()
+ARRAY+=(private/fixbalance.m)
+ARRAY+=(fileio/private/fixbalance.m)
+ARRAY+=(forward/private/fixbalance.m)
+ARRAY+=(plotting/private/fixbalance.m)
+ARRAY+=(test/private/fixbalance.m)
+ARRAY+=(utilities/private/fixbalance.m)
+sync ${ARRAY[*]}
+
+################################################################################
 # fixcoordsys.m
 
 ARRAY=()
@@ -687,8 +716,9 @@ sync ${ARRAY[*]}
 
 ARRAY=()
 ARRAY+=(fileio/private/ft_apply_montage.m)
-ARRAY+=(forward/ft_apply_montage.m)
+ARRAY+=(forward/private/ft_apply_montage.m)
 ARRAY+=(plotting/private/ft_apply_montage.m)
+ARRAY+=(utilities/ft_apply_montage.m)
 sync ${ARRAY[*]}
 
 ################################################################################
@@ -1172,7 +1202,16 @@ sync ${ARRAY[*]}
 
 ARRAY=()
 ARRAY+=(inverse/private/ft_setopt.m)
+ARRAY+=(qsub/private/ft_setopt.m)
 ARRAY+=(utilities/ft_setopt.m)
+sync ${ARRAY[*]}
+
+################################################################################
+# ft_struct2char.m
+
+ARRAY=()
+ARRAY+=(fileio/private/ft_struct2char.m)
+ARRAY+=(utilities/ft_struct2char.m)
 sync ${ARRAY[*]}
 
 ################################################################################
@@ -1476,6 +1515,15 @@ ARRAY=()
 ARRAY+=(connectivity/private/inv3x3.mexa64)
 ARRAY+=(private/inv3x3.mexa64)
 ARRAY+=(src/inv3x3.mexa64)
+sync ${ARRAY[*]}
+
+################################################################################
+# inv3x3.mexmaca64
+
+ARRAY=()
+ARRAY+=(connectivity/private/inv3x3.mexmaca64)
+ARRAY+=(private/inv3x3.mexmaca64)
+ARRAY+=(src/inv3x3.mexmaca64)
 sync ${ARRAY[*]}
 
 ################################################################################
@@ -2153,6 +2201,15 @@ ARRAY+=(src/mtimes3x3.mexglx)
 sync ${ARRAY[*]}
 
 ################################################################################
+# mtimes3x3.mexmaca64
+
+ARRAY=()
+ARRAY+=(connectivity/private/mtimes3x3.mexmaca64)
+ARRAY+=(private/mtimes3x3.mexmaca64)
+ARRAY+=(src/mtimes3x3.mexmaca64)
+sync ${ARRAY[*]}
+
+################################################################################
 # mtimes3x3.mexmaci
 
 ARRAY=()
@@ -2692,16 +2749,24 @@ sync ${ARRAY[*]}
 # neuralynx_crc.m
 
 ARRAY=()
+ARRAY+=(contrib/spike/private/neuralynx_crc.m)
 ARRAY+=(fileio/private/neuralynx_crc.m)
-ARRAY+=(private/neuralynx_crc.m)
 sync ${ARRAY[*]}
 
 ################################################################################
 # neuralynx_getheader.m
 
 ARRAY=()
+ARRAY+=(contrib/spike/private/neuralynx_getheader.m)
 ARRAY+=(fileio/private/neuralynx_getheader.m)
-ARRAY+=(private/neuralynx_getheader.m)
+sync ${ARRAY[*]}
+
+################################################################################
+# normals_elec.m
+
+ARRAY=()
+ARRAY+=(private/normals_elec.m.m)
+ARRAY+=(plotting/private/normals_elec.m.m)
 sync ${ARRAY[*]}
 
 ################################################################################
@@ -3238,7 +3303,6 @@ sync ${ARRAY[*]}
 ARRAY=()
 ARRAY+=(contrib/spike/private/read_neuralynx_dma.m)
 ARRAY+=(fileio/private/read_neuralynx_dma.m)
-ARRAY+=(private/read_neuralynx_dma.m)
 sync ${ARRAY[*]}
 
 ################################################################################
@@ -3895,6 +3959,14 @@ sync ${ARRAY[*]}
 ARRAY=()
 ARRAY+=(contrib/spike/private/specest_nanfft.m)
 ARRAY+=(private/specest_nanfft.m)
+sync ${ARRAY[*]}
+
+################################################################################
+# standardcolors.m
+
+ARRAY=()
+ARRAY+=(private/standardcolors.m)
+ARRAY+=(plotting/private/standardcolors.m)
 sync ${ARRAY[*]}
 
 ################################################################################
