@@ -312,7 +312,7 @@ if strcmp(readbids, 'yes') || strcmp(readbids, 'ifmakessense')
   isbids = startsWith(f, 'sub-') && ~strcmp(x, '.tsv');
   if isbids
     % try to read the metadata from the BIDS sidecar files
-    sidecar = bids_sidecar(filename);
+    sidecar = bids_sidecar(filename,[],'json');
     if ~isempty(sidecar)
       data_json = ft_read_json(sidecar);
     end
